@@ -1,24 +1,8 @@
 import { signIn } from "@/auth";
+import LoginForm from "./LoginForm";
 
-async function Login() {
-  return (
-    <form
-      action={async (formData) => {
-        "use server";
-        await signIn("credentials", formData);
-      }}
-    >
-      <label>
-        Email
-        <input name="email" type="email" />
-      </label>
-      <label>
-        Password
-        <input name="password" type="password" />
-      </label>
-      <button>Sign In</button>
-    </form>
-  );
+async function page() {
+  return <LoginForm />;
 }
 
-export default Login;
+export default page;

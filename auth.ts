@@ -20,6 +20,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             const user = response.data.user;
             cookies().set("user", JSON.stringify(user), { httpOnly: true });
             return user;
+          })
+          .catch((error) => {
+            return { error: error };
           });
       },
     }),
