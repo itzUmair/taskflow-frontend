@@ -16,7 +16,8 @@ export function DarkModeToggle() {
 
   return (
     <Button
-      variant="outline"
+      // variant="outline"
+      className="border border-black text-black bg-secondary-light-400 dark:bg-secondary-dark-600 dark:text-white dark:border-white hover:bg-secondary-light-400 dark:hover:bg-secondary-dark-600"
       onClick={() => (theme === "light" ? setTheme("dark") : setTheme("light"))}
     >
       {theme === "light" ? <SunIcon /> : <MoonIcon />}
