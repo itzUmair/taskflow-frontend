@@ -2,6 +2,7 @@ import Image from "next/image";
 import RegisterForm from "./RegisterForm";
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 async function page() {
   const session = await getSession();
@@ -27,6 +28,9 @@ async function page() {
         alt="taskflow"
       />
       <RegisterForm />
+      <div className="absolute top-4 right-4">
+        <DarkModeToggle />
+      </div>
     </main>
   );
 }

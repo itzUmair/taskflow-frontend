@@ -2,6 +2,7 @@ import { getSession } from "@/lib/session";
 import LoginForm from "./LoginForm";
 import { redirect } from "next/navigation";
 import Image from "next/image";
+import { DarkModeToggle } from "@/components/DarkModeToggle";
 
 async function page() {
   const session = await getSession();
@@ -9,7 +10,7 @@ async function page() {
   if (session) redirect("/dashboard");
 
   return (
-    <div className="pt-4 md:pt-8">
+    <main className="pt-4 md:pt-8">
       <Image
         src="/logo-light.png"
         width={170}
@@ -25,7 +26,10 @@ async function page() {
         alt="taskflow"
       />
       <LoginForm />
-    </div>
+      <div className="absolute top-4 right-4">
+        <DarkModeToggle />
+      </div>
+    </main>
   );
 }
 
