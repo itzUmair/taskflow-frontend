@@ -8,7 +8,7 @@ async function page() {
   const session = await getSession();
 
   if (!session) {
-    redirect("/");
+    redirect("/login");
   }
 
   return (

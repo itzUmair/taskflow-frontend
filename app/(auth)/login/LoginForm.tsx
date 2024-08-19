@@ -77,7 +77,7 @@ function LoginForm() {
   }
 
   return (
-    <Card className="w-[500px] mx-auto mt-8 md:mt-16">
+    <Card className="w-[500px] mx-auto">
       <CardHeader>
         <CardTitle className=" font-bold text-xl">Login</CardTitle>
         <CardDescription>
@@ -106,7 +106,7 @@ function LoginForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password</FormLabel>
-                  <div className="flex gap-x-2">
+                  <div className="flex gap-x-2 relative">
                     <FormControl>
                       <Input
                         {...field}
@@ -116,6 +116,7 @@ function LoginForm() {
                     </FormControl>
                     <button
                       type="button"
+                      className="absolute top-1/2 -translate-y-1/2 right-4"
                       onClick={() =>
                         setIsShowPassword((prevState) => !prevState)
                       }
