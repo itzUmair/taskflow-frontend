@@ -1,7 +1,14 @@
-import NextAuth from "next-auth";
+import NextAuth, { AuthError } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import axios, { AxiosError } from "axios";
 import { cookies } from "next/headers";
+
+class CustomError extends AuthError {
+  constructor(message: string) {
+    super();
+    this.message = message;
+  }
+}
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -22,7 +29,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return user;
           })
           .catch((error) => {
-            return { error: error };
+            throw new CustomError("Authentication error");
           });
       },
     }),

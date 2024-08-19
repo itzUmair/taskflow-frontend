@@ -49,6 +49,7 @@ function LoginForm() {
 
   async function onsubmit(values: z.infer<typeof formSchema>) {
     const response = await SignIn(values);
+    console.log(response);
   }
 
   return (
