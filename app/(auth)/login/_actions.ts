@@ -11,7 +11,11 @@ export async function SignIn(values: {
     const res = await axios.post("http://localhost:8080/api/v1/auth/signin", {
       ...values,
     });
-    cookies().set("auth-token", res.data.token);
+    cookies().set("auth-token", res.data.token, {
+      httpOnly: true,
+      secure: true,
+      expires: 7 * 24 * 60 * 60 * 1000,
+    });
     return { success: true };
   } catch (error) {
     if (error instanceof AxiosError) {
