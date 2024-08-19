@@ -1,17 +1,21 @@
-import { auth } from "@/auth";
-import { getUserData } from "@/lib/manageCookies";
-import { cookies } from "next/headers";
+import { Button } from "@/components/ui/button";
+import { getSession } from "@/lib/session";
+import SignOut from "@/lib/signout";
 import { redirect } from "next/navigation";
+import SignoutButton from "./SignoutButton";
 
 async function page() {
-  const session = await auth();
-  const userData = getUserData();
+  const session = await getSession();
 
   if (!session) {
     redirect("/");
   }
 
-  return <div>{JSON.stringify(userData)}</div>;
+  return (
+    <div>
+      <SignoutButton />
+    </div>
+  );
 }
 
 export default page;

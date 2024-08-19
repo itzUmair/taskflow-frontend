@@ -23,6 +23,8 @@ import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SignIn } from "./_actions";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z
@@ -47,9 +49,31 @@ function LoginForm() {
     },
   });
 
+  const { toast } = useToast();
+
+  const router = useRouter();
+
   async function onsubmit(values: z.infer<typeof formSchema>) {
     const response = await SignIn(values);
-    console.log(response);
+    if (response.success) router.push("/dashboard");
+    if (!response.success) {
+      if (response.data.cause === "auth") {
+        form.setError("email", {
+          type: "custom",
+          message: response.data.message,
+        });
+        form.setError("password", {
+          type: "custom",
+          message: response.data.message,
+        });
+      } else {
+        toast({
+          title: "An error occured",
+          description: response.data.message,
+          variant: "destructive",
+        });
+      }
+    }
   }
 
   return (
@@ -70,7 +94,7 @@ function LoginForm() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} placeholder="email@example.com" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -87,6 +111,7 @@ function LoginForm() {
                       <Input
                         {...field}
                         type={isShowPassword ? "text" : "password"}
+                        placeholder="********"
                       />
                     </FormControl>
                     <button

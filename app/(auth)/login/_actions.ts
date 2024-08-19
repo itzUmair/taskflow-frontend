@@ -1,22 +1,31 @@
 "use server";
 
-import { signIn } from "@/auth";
-import { AxiosError } from "axios";
-import { AuthError } from "next-auth";
+import axios, { AxiosError } from "axios";
+import { cookies } from "next/headers";
 
 export async function SignIn(values: {
   email: string;
   password: string;
-}): Promise<{ success: boolean; message?: string }> {
+}): Promise<{ success: boolean; data?: any }> {
   try {
-    await signIn("credentials", values);
+    const res = await axios.post("http://localhost:8080/api/v1/auth/signin", {
+      ...values,
+    });
+    cookies().set("auth-token", res.data.token);
     return { success: true };
   } catch (error) {
-    if (error instanceof AuthError) {
-      return { success: false, message: error.message };
+    if (error instanceof AxiosError) {
+      return {
+        success: false,
+        data: { cause: "auth", message: error.response?.data.message },
+      };
     }
-    return { success: false, message: error as any };
+    return {
+      success: false,
+      data: {
+        cuase: "server",
+        message: "Something went wrong! Please try again later",
+      },
+    };
   }
 }
-
-// TODO: add custom authentication rather than next auth
