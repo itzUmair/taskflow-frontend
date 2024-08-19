@@ -1,0 +1,34 @@
+import Image from "next/image";
+import RegisterForm from "./RegisterForm";
+import { getSession } from "@/lib/session";
+import { redirect } from "next/navigation";
+
+async function page() {
+  const session = await getSession();
+
+  if (session) {
+    redirect("/dashboard");
+  }
+
+  return (
+    <main className="pt-4 md:pt-8">
+      <Image
+        src="/logo-light.png"
+        width={170}
+        height={170}
+        className="mx-auto my-4 md:my-8 dark:hidden"
+        alt="taskflow"
+      />
+      <Image
+        src="/logo-dark.png"
+        width={170}
+        height={170}
+        className="mx-auto my-4 md:my-8 hidden dark:block"
+        alt="taskflow"
+      />
+      <RegisterForm />
+    </main>
+  );
+}
+
+export default page;

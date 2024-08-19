@@ -1,8 +1,9 @@
 "use client";
 
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons";
 import {
   Card,
@@ -23,12 +24,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { SignIn } from "./_actions";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Signup } from "./_action";
 
 const formSchema = z.object({
+  fname: z
+    .string()
+    .min(1, { message: "First name is required" })
+    .max(100, { message: "First name is too long" }),
+  lname: z
+    .string()
+    .min(1, { message: "Last name is required" })
+    .max(100, { message: "Last name is too long" }),
   email: z
     .string()
     .min(1, { message: "Email is required" })
@@ -40,12 +49,14 @@ const formSchema = z.object({
     .max(100, { message: "Password is too long" }),
 });
 
-function LoginForm() {
+function RegisterForm() {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      fname: "",
+      lname: "",
       email: "",
       password: "",
     },
@@ -55,16 +66,18 @@ function LoginForm() {
 
   const router = useRouter();
 
-  async function onsubmit(values: z.infer<typeof formSchema>) {
-    const response = await SignIn(values);
-    if (response.success) router.push("/dashboard");
+  const onsubmit = async (values: z.infer<typeof formSchema>) => {
+    const response = await Signup(values);
+    if (response.success) {
+      toast({
+        title: "Success",
+        description: response.data.message,
+      });
+      router.push("/login");
+    }
     if (!response.success) {
       if (response.data.cause === "auth") {
         form.setError("email", {
-          type: "custom",
-          message: response.data.message,
-        });
-        form.setError("password", {
           type: "custom",
           message: response.data.message,
         });
@@ -76,15 +89,13 @@ function LoginForm() {
         });
       }
     }
-  }
+  };
 
   return (
     <Card className="w-[500px] mx-auto">
       <CardHeader>
-        <CardTitle className=" font-bold text-xl">Login</CardTitle>
-        <CardDescription>
-          Login to continue managing your projects
-        </CardDescription>
+        <CardTitle className=" font-bold text-xl">Register</CardTitle>
+        <CardDescription>Fill the form to create an account</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -92,6 +103,34 @@ function LoginForm() {
             onSubmit={form.handleSubmit(onsubmit)}
             className="flex flex-col gap-y-2"
           >
+            <div className="flex flex-col md:flex-row gap-x-2">
+              <FormField
+                control={form.control}
+                name="fname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="John" maxLength={100} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last name</FormLabel>
+                    <FormControl>
+                      <Input {...field} placeholder="Doe" maxLength={100} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="email"
@@ -143,16 +182,16 @@ function LoginForm() {
               )}
             />
             <Button type="submit" className="w-full mt-4">
-              Login
+              Create account
             </Button>
           </form>
         </Form>
       </CardContent>
       <CardFooter>
         <p className="text-center w-full">
-          Don&apos;t an account?&nbsp;
-          <Link href="/signup" className="underline">
-            Register
+          Already have an account?&nbsp;
+          <Link href="/login" className="underline">
+            Login
           </Link>
         </p>
       </CardFooter>
@@ -160,6 +199,4 @@ function LoginForm() {
   );
 }
 
-// TODO: add register page link
-
-export default LoginForm;
+export default RegisterForm;

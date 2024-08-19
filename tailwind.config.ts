@@ -22,6 +22,8 @@ const config = {
       colors: {
         "primary-dark-800": "#202025",
         "primary-light-200": "#F6F7FF",
+        "secondary-dark-600": "#3C3C4F",
+        "secondary-light-400": "#D9D9D9",
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
