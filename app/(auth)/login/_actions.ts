@@ -1,6 +1,7 @@
 "use server";
 
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
+import axios from "@/lib/axios";
 import { cookies } from "next/headers";
 
 export async function SignIn(values: {
@@ -8,7 +9,7 @@ export async function SignIn(values: {
   password: string;
 }): Promise<{ success: boolean; data?: any }> {
   try {
-    const res = await axios.post("http://localhost:8080/api/v1/auth/signin", {
+    const res = await axios.post("/auth/signin", {
       ...values,
     });
     const secondsIn7Days = 7 * 24 * 60 * 60;

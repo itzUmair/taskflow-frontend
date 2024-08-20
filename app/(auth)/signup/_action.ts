@@ -1,7 +1,7 @@
 "use server";
 
-import axios, { AxiosError } from "axios";
-import { SignIn } from "../login/_actions";
+import { AxiosError } from "axios";
+import axios from "@/lib/axios";
 
 export async function Signup(values: {
   fname: string;
@@ -10,7 +10,7 @@ export async function Signup(values: {
   password: string;
 }): Promise<{ success: boolean; data: any }> {
   try {
-    await axios.post("http://localhost:8080/api/v1/auth/signup", {
+    await axios.post("/auth/signup", {
       fname: values.fname,
       lname: values.lname,
       email: values.email,
