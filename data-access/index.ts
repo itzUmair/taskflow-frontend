@@ -1,4 +1,4 @@
-import { User } from "@/types";
+import { ProjectHeader, ProjectMember, User } from "@/types";
 import axios from "@/lib/axios";
 
 export const getAuthToken = async (email: string, password: string) => {
@@ -19,6 +19,28 @@ export const getUserDataByToken = async (
   try {
     const resp = await axios.get(`/users/${token}`);
     return resp.data.user as User;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getUserProjects = async (
+  userid: number
+): Promise<ProjectHeader[] | null> => {
+  try {
+    const resp = await axios.get(`/projects/user/${userid}`);
+    return resp.data.projects;
+  } catch (error) {
+    return null;
+  }
+};
+
+export const getProjectMembers = async (
+  projectid: number
+): Promise<ProjectMember[] | null> => {
+  try {
+    const resp = await axios.get(`/members/project/${projectid}`);
+    return resp.data.members;
   } catch (error) {
     return null;
   }

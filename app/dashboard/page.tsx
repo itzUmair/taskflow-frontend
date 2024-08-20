@@ -1,7 +1,9 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
-import SignoutButton from "./SignoutButton";
 import { getUserDataByToken } from "@/data-access";
+import Navbar from "./components/Navbar";
+import Header from "./components/Header";
+import ProjectContextProvider from "@/context/CurrentProjectContext";
 
 async function page() {
   const session = await getSession();
@@ -12,12 +14,17 @@ async function page() {
 
   const user = await getUserDataByToken(session);
 
-  console.log(user);
+  if (!user) {
+    redirect("/login");
+  }
 
   return (
-    <div>
-      <SignoutButton />
-    </div>
+    <main>
+      <Navbar />
+      <ProjectContextProvider>
+        <Header user={user} />
+      </ProjectContextProvider>
+    </main>
   );
 }
 
