@@ -12,7 +12,7 @@ export async function SignIn(values: {
       ...values,
     });
     const secondsIn7Days = 7 * 24 * 60 * 60;
-    cookies().set("auth-token", res.data.token, {
+    cookies().set("authtoken", res.data.token, {
       httpOnly: true,
       secure: true,
       maxAge: secondsIn7Days,

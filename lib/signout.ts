@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 async function SignOut() {
-  cookies().set("auth-token", "", { expires: 0 });
+  cookies().set("authtoken", "", { expires: 0 });
   redirect("/");
 }
 

@@ -1,6 +1,7 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import SignoutButton from "./SignoutButton";
+import { getUserDataByToken } from "@/data-access";
 
 async function page() {
   const session = await getSession();
@@ -8,6 +9,10 @@ async function page() {
   if (!session) {
     redirect("/login");
   }
+
+  const user = await getUserDataByToken(session);
+
+  console.log(user);
 
   return (
     <div>
