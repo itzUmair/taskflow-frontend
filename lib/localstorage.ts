@@ -7,12 +7,21 @@ export function getCurrentSelectedProject(): {
   if (!currentProject) {
     return null;
   }
-  return JSON.parse(currentProject);
+
+  try {
+    return JSON.parse(currentProject);
+  } catch (error) {
+    return null;
+  }
 }
 
-export function setCurrentSelectedProject(currentProject: {
-  project_id: number;
-  project_name: string;
-}): void {
+export function setCurrentSelectedProject(
+  currentProject:
+    | {
+        project_id: number;
+        project_name: string;
+      }
+    | undefined
+): void {
   localStorage.setItem("current-project", JSON.stringify(currentProject));
 }
