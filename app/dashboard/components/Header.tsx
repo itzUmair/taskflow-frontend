@@ -55,7 +55,7 @@ async function Header({ user }: { user: User }) {
               className="flex items-center gap-x-1"
             >
               <MagicWandIcon width={20} height={20} />
-              About developer
+              Developer
             </Link>
             <Separator />
             <SignoutButton />
