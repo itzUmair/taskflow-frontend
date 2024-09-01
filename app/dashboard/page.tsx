@@ -4,6 +4,7 @@ import { getUserDataByToken } from "@/data-access";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import ProjectContextProvider from "@/context/CurrentProjectContext";
+import Content from "./components/Content";
 
 async function page() {
   const session = await getSession();
@@ -23,6 +24,7 @@ async function page() {
       <Navbar />
       <ProjectContextProvider>
         <Header user={user} />
+        <Content />
       </ProjectContextProvider>
     </main>
   );

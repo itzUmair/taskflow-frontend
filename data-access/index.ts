@@ -29,6 +29,9 @@ export const getUserProjects = async (
 ): Promise<ProjectHeader[] | null> => {
   try {
     const resp = await axios.get(`/projects/user/${userid}`);
+    if (resp.data.projects.length === 0) {
+      return null;
+    }
     return resp.data.projects;
   } catch (error) {
     return null;

@@ -25,7 +25,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SignIn } from "./_actions";
 import { useToast } from "@/components/ui/use-toast";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const formSchema = z.object({
@@ -53,11 +52,9 @@ function LoginForm() {
 
   const { toast } = useToast();
 
-  const router = useRouter();
-
   async function onsubmit(values: z.infer<typeof formSchema>) {
     const response = await SignIn(values);
-    if (response.success) router.push("/dashboard");
+    if (!response) return;
     if (!response.success) {
       if (response.data.cause === "auth") {
         form.setError("email", {

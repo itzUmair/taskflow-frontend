@@ -3,11 +3,13 @@
 import { AxiosError } from "axios";
 import axios from "@/lib/axios";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function SignIn(values: {
   email: string;
   password: string;
-}): Promise<{ success: boolean; data?: any }> {
+}): Promise<{ success: boolean; data?: any } | undefined> {
+  let redirectPath = null;
   try {
     const res = await axios.post("/auth/signin", {
       ...values,
@@ -18,7 +20,7 @@ export async function SignIn(values: {
       secure: true,
       maxAge: secondsIn7Days,
     });
-    return { success: true };
+    redirectPath = "/dashboard";
   } catch (error) {
     if (error instanceof AxiosError && error.response?.status === 400) {
       return {
@@ -33,5 +35,9 @@ export async function SignIn(values: {
         message: "Something went wrong! Please try again later",
       },
     };
+  } finally {
+    if (redirectPath) {
+      redirect(redirectPath);
+    }
   }
 }

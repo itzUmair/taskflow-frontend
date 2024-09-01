@@ -7,7 +7,6 @@ import { ProjectMemberDisplay } from "./ProjectMemberDisplay";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
