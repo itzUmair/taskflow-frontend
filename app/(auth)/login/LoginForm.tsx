@@ -157,6 +157,4 @@ function LoginForm() {
   );
 }
 
-// TODO: add register page link
-
 export default LoginForm;

@@ -35,7 +35,6 @@ export function ProjectMemberDisplay() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="outline"
-          onClick={() => console.log("lo")}
           className="bg-secondary-light-400 dark:bg-secondary-dark-600 outline-none border-none hover:bg-secondary-light-400 dark:hover:bg-secondary-dark-600 "
         >
           <BackpackIcon width={20} height={20} className="mr-2" />

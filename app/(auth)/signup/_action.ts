@@ -34,7 +34,6 @@ export async function Signup(values: {
           data: { cause: "auth", message: error.response.data.message },
         };
       } else {
-        console.log(error);
         return {
           success: false,
           data: {

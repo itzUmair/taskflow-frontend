@@ -17,3 +17,13 @@ export type ProjectMember = {
   username: string;
   role: string;
 };
+
+export type ProjectTask = {
+  task_id: number;
+  title: string;
+  description: string;
+  status: string;
+  date_of_creation: string;
+  created_by: string;
+  priority: string;
+};
